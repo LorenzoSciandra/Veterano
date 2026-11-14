@@ -60,22 +60,22 @@ NOTE = {"C3": 130.81, "E3": 164.81, "G3": 196.0, "A2": 110.0, "F2": 87.31, "G2":
 # --- 1. problema: tensione -------------------------------------------------
 a, b = 0.0, 9.6
 i0, i1, t = t_of(a, b)
-grow = np.linspace(0.35, 1.0, len(t))
+grow = np.linspace(0.25, 1.0, len(t)) ** 1.6  # crescendo graduale
 drone = tone(55, t, (1, .6, .4, .3, .2)) + 0.25 * tone(58.27, t, (1, .5, .3))  # La1 + Sib1 appena accennato
-add(a, b, drone * env(len(t), 1.5, 0.15) * grow, gain=0.13)
+add(a, b, drone * env(len(t), 1.5, 0.15) * grow, gain=0.22)
 # battito che accelera
 beat_t, period = 0.6, 0.95
 while beat_t < 9.2:
     _, _, bt = t_of(0, 0.35)
     thump = np.sin(2 * np.pi * (48 + 30 * np.exp(-bt * 25)) * bt) * np.exp(-bt * 11)
-    add(beat_t, beat_t + 0.35, thump, gain=0.16)
+    add(beat_t, beat_t + 0.35, thump, gain=0.08 + 0.26 * (beat_t / 9.6) ** 1.5)
     beat_t += period
-    period = period  # battito regolare, senza accelerare
+    period = max(0.7, period * 0.975)  # accelera appena
 # crescendo di rumore filtrato verso il "Come"
 i0, i1, t = t_of(5.8, 9.5)
 noise = rng.standard_normal(len(t))
 riser = lowpass(noise, 0.02) * np.linspace(0, 1, len(t)) ** 2.2
-add(5.8, 9.5, riser, gain=0.22)
+add(5.8, 9.5, riser, gain=0.45)
 # nota acuta tesa che sale
 i0, i1, t = t_of(6.5, 9.5)
 f = 880 * (1 + 0.06 * (t / t[-1]))
