@@ -10,7 +10,7 @@ from datetime import datetime
 from pathlib import Path
 
 from .models import AnswerTrace, Card, FieldName, Segment
-from .rules import can_publish
+from .rules import can_publish, normalize
 
 DEFAULT_DB = Path(__file__).resolve().parent.parent / "data" / "veterano.db"
 
@@ -52,8 +52,24 @@ class Store:
         return f"{source_id}#{n + 1}"
 
     # --- schede ---------------------------------------------------------
+    def detect_conflicts(self, card: Card) -> list[str]:
+        """Altre istruzioni approvate per lo stesso compito e la stessa variante che dicono una cosa diversa."""
+        if card.context.missing or card.action.missing or card.status in ("respinta", "ritirata"):
+            return []
+        out = []
+        for other in self.all_latest(card.task_id):
+            if other.card_id == card.card_id or other.status != "pubblicata":
+                continue
+            if normalize(other.context.value) == normalize(card.context.value) and normalize(other.action.value) != normalize(card.action.value):
+                out.append(other.card_id)
+        return out
+
     def save_card(self, card: Card) -> Card:
         card = card.model_copy(update={"missing_fields": card.computed_missing()})
+        if card.status == "bozza":
+            found = [c for c in self.detect_conflicts(card) if c not in card.conflicts]
+            if found:
+                card = card.model_copy(update={"conflicts": [*card.conflicts, *found]})
         with self.db:
             self.db.execute(
                 "INSERT INTO cards(card_id, version, body) VALUES (?, ?, ?)",
@@ -95,6 +111,28 @@ class Store:
         if not ok:
             raise ValueError(reason)
         return self._new_version(card, status="pubblicata", reviewer=reviewer, reviewed_at=datetime.now())
+
+    def retire(self, card_id: str, reviewer: str) -> Card:
+        """Ritira un'istruzione approvata: resta nella storia, l'assistente non la usa più."""
+        card = self.latest(card_id)
+        return self._new_version(card, status="ritirata", reviewer=reviewer, reviewed_at=datetime.now())
+
+    def resolve_conflict(self, keep_id: str, drop_id: str, reviewer: str) -> Card:
+        """Una persona decide quale delle due istruzioni vale. L'altra viene ritirata (se era approvata) o respinta."""
+        drop = self.latest(drop_id)
+        self._new_version(drop, status="ritirata" if drop.status == "pubblicata" else "respinta",
+                          reviewer=reviewer, reviewed_at=datetime.now(), conflicts=[c for c in drop.conflicts if c != keep_id])
+        keep = self.latest(keep_id)
+        return self._new_version(keep, conflicts=[c for c in keep.conflicts if c != drop_id])
+
+    def previous_published(self, card: Card) -> Card | None:
+        """L'ultima versione approvata precedente a questa, se diceva qualcosa di diverso (fatto cambiato nel tempo)."""
+        for h in reversed(self.history(card.card_id)):
+            if h.version < card.version and h.status == "pubblicata" and (
+                normalize(h.action.value) != normalize(card.action.value) or normalize(h.rationale.value) != normalize(card.rationale.value)
+            ):
+                return h
+        return None
 
     def reject(self, card_id: str, reviewer: str) -> Card:
         card = self.latest(card_id)

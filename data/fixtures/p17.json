@@ -1,43 +1,196 @@
 {
-  "_nota": "Scenario INTERAMENTE SINTETICO per verificare il software. Pezzi, varianti e accorgimenti sono inventati: non sono istruzioni operative reali.",
-  "segments": [
-    {"segment_id": "SRC-001#1", "source_id": "SRC-001", "expert": "Esperto 1 (simulato)", "recorded_at": "2026-11-14T09:00:00", "text": "Su P-17 confronto la superficie con la scheda campione prima di registrare l'esito."},
-    {"segment_id": "SRC-002#1", "source_id": "SRC-002", "expert": "Esperto 1 (simulato)", "recorded_at": "2026-11-14T09:05:00", "text": "Sulla P-17 variante A il serraggio delle quattro viti lo faccio a croce, mai in giro."},
-    {"segment_id": "SRC-002#2", "source_id": "SRC-002", "expert": "Esperto 1 (simulato)", "recorded_at": "2026-11-14T09:05:30", "text": "Se le giri in tondo la flangia si siede storta e il pezzo trafila al collaudo."},
-    {"segment_id": "SRC-003#1", "source_id": "SRC-003", "expert": "Esperto 2 (simulato)", "recorded_at": "2026-11-14T09:10:00", "text": "Sulla P-22 del lotto standard la sbavatura la passo con la lima fine, solo sul lato interno."},
-    {"segment_id": "SRC-003#2", "source_id": "SRC-003", "expert": "Esperto 2 (simulato)", "recorded_at": "2026-11-14T09:10:40", "text": "Sul lato esterno c'è il raggio di tenuta: se lo tocchi lo rovini."},
-    {"segment_id": "SRC-004#1", "source_id": "SRC-004", "expert": "Esperto 1 (simulato)", "recorded_at": "2026-11-14T09:15:00", "text": "La P-22 lotto standard io la sbavo con la spazzola rotante su tutti e due i lati, si fa prima."}
-  ],
-  "cards": [
-    {
-      "card_id": "CARD-P17-VIS-01", "version": 1, "status": "bozza", "task_id": "P17-controllo-visivo",
-      "context": {"value": null, "segment_ids": []},
-      "action": {"value": "Confrontare la superficie con la scheda campione prima di registrare l'esito", "segment_ids": ["SRC-001#1"]},
-      "rationale": {"value": null, "segment_ids": []},
-      "expert": "Esperto 1 (simulato)", "conflicts": []
-    },
-    {
-      "card_id": "CARD-P17-SER-01", "version": 1, "status": "pubblicata", "task_id": "P17-serraggio",
-      "context": {"value": "P-17 variante A", "segment_ids": ["SRC-002#1"]},
-      "action": {"value": "Serrare le quattro viti a croce, mai in sequenza circolare", "segment_ids": ["SRC-002#1"]},
-      "rationale": {"value": "In sequenza circolare la flangia si assesta storta e il pezzo perde al collaudo", "segment_ids": ["SRC-002#2"]},
-      "expert": "Esperto 1 (simulato)", "conflicts": [],
-      "reviewer": "Capo reparto (simulato)", "reviewed_at": "2026-11-14T09:30:00"
-    },
-    {
-      "card_id": "CARD-P22-SBA-01", "version": 1, "status": "pubblicata", "task_id": "P22-sbavatura",
-      "context": {"value": "P-22 lotto standard", "segment_ids": ["SRC-003#1"]},
-      "action": {"value": "Sbavare con lima fine solo il lato interno", "segment_ids": ["SRC-003#1"]},
-      "rationale": {"value": "Il lato esterno ha il raggio di tenuta, che si rovina se lavorato", "segment_ids": ["SRC-003#2"]},
-      "expert": "Esperto 2 (simulato)", "conflicts": [],
-      "reviewer": "Capo reparto (simulato)", "reviewed_at": "2026-11-14T09:35:00"
-    },
-    {
-      "card_id": "CARD-P22-SBA-02", "version": 1, "status": "bozza", "task_id": "P22-sbavatura",
-      "context": {"value": "P-22 lotto standard", "segment_ids": ["SRC-004#1"]},
-      "action": {"value": "Sbavare con spazzola rotante su entrambi i lati", "segment_ids": ["SRC-004#1"]},
-      "rationale": {"value": null, "segment_ids": []},
-      "expert": "Esperto 1 (simulato)", "conflicts": ["CARD-P22-SBA-01"]
-    }
-  ]
+ "_nota": "Scenario INTERAMENTE SINTETICO per verificare il software. Pezzi, varianti e accorgimenti sono inventati: non sono istruzioni operative reali.",
+ "segments": [
+  {
+   "segment_id": "SRC-001#1",
+   "source_id": "SRC-001",
+   "expert": "Esperto 1 (simulato)",
+   "recorded_at": "2026-11-14T09:00:00",
+   "text": "Su P-17 confronto la superficie con la scheda campione prima di registrare l'esito."
+  },
+  {
+   "segment_id": "SRC-002#1",
+   "source_id": "SRC-002",
+   "expert": "Esperto 1 (simulato)",
+   "recorded_at": "2026-11-14T09:05:00",
+   "text": "Sulla P-17 variante A il serraggio delle quattro viti lo faccio a croce, mai in giro."
+  },
+  {
+   "segment_id": "SRC-002#2",
+   "source_id": "SRC-002",
+   "expert": "Esperto 1 (simulato)",
+   "recorded_at": "2026-11-14T09:05:30",
+   "text": "Se le giri in tondo la flangia si siede storta e il pezzo trafila al collaudo."
+  },
+  {
+   "segment_id": "SRC-003#1",
+   "source_id": "SRC-003",
+   "expert": "Esperto 2 (simulato)",
+   "recorded_at": "2026-11-14T09:10:00",
+   "text": "Sulla P-22 del lotto standard la sbavatura la passo con la lima fine, solo sul lato interno."
+  },
+  {
+   "segment_id": "SRC-003#2",
+   "source_id": "SRC-003",
+   "expert": "Esperto 2 (simulato)",
+   "recorded_at": "2026-11-14T09:10:40",
+   "text": "Sul lato esterno c'è il raggio di tenuta: se lo tocchi lo rovini."
+  },
+  {
+   "segment_id": "SRC-004#1",
+   "source_id": "SRC-004",
+   "expert": "Esperto 1 (simulato)",
+   "recorded_at": "2026-11-14T09:15:00",
+   "text": "La P-22 lotto standard io la sbavo con la spazzola rotante su tutti e due i lati, si fa prima."
+  },
+  {
+   "segment_id": "SRC-005#1",
+   "source_id": "SRC-005",
+   "expert": "Esperto 2 (simulato)",
+   "recorded_at": "2026-10-20T10:00:00",
+   "text": "Da quando usiamo le guarnizioni del nuovo fornitore, sulla P-17 variante A le viti le serro a croce in due passate: la seconda dopo cinque minuti."
+  },
+  {
+   "segment_id": "SRC-005#2",
+   "source_id": "SRC-005",
+   "expert": "Esperto 2 (simulato)",
+   "recorded_at": "2026-10-20T10:00:40",
+   "text": "La guarnizione nuova si assesta più lentamente: con una passata sola dopo un'ora c'è gioco e trafila."
+  }
+ ],
+ "cards": [
+  {
+   "card_id": "CARD-P17-VIS-01",
+   "version": 1,
+   "status": "bozza",
+   "task_id": "P17-controllo-visivo",
+   "context": {
+    "value": null,
+    "segment_ids": []
+   },
+   "action": {
+    "value": "Confrontare la superficie con la scheda campione prima di registrare l'esito",
+    "segment_ids": [
+     "SRC-001#1"
+    ]
+   },
+   "rationale": {
+    "value": null,
+    "segment_ids": []
+   },
+   "expert": "Esperto 1 (simulato)",
+   "conflicts": []
+  },
+  {
+   "card_id": "CARD-P17-SER-01",
+   "version": 1,
+   "status": "pubblicata",
+   "task_id": "P17-serraggio",
+   "context": {
+    "value": "P-17 variante A",
+    "segment_ids": [
+     "SRC-002#1"
+    ]
+   },
+   "action": {
+    "value": "Serrare le quattro viti a croce in un'unica passata, mai in sequenza circolare",
+    "segment_ids": [
+     "SRC-002#1"
+    ]
+   },
+   "rationale": {
+    "value": "In sequenza circolare la flangia si assesta storta e il pezzo perde al collaudo",
+    "segment_ids": [
+     "SRC-002#2"
+    ]
+   },
+   "expert": "Esperto 1 (simulato)",
+   "conflicts": [],
+   "reviewer": "Capo reparto (simulato)",
+   "reviewed_at": "2025-03-12T09:30:00"
+  },
+  {
+   "card_id": "CARD-P17-SER-01",
+   "version": 2,
+   "status": "pubblicata",
+   "task_id": "P17-serraggio",
+   "context": {
+    "value": "P-17 variante A",
+    "segment_ids": [
+     "SRC-002#1"
+    ]
+   },
+   "action": {
+    "value": "Serrare le quattro viti a croce in due passate, la seconda dopo cinque minuti",
+    "segment_ids": [
+     "SRC-005#1"
+    ]
+   },
+   "rationale": {
+    "value": "Con le guarnizioni del nuovo fornitore la flangia si assesta più lentamente: con una passata sola resta gioco e il pezzo trafila",
+    "segment_ids": [
+     "SRC-005#2"
+    ]
+   },
+   "expert": "Esperto 2 (simulato)",
+   "conflicts": [],
+   "reviewer": "Capo reparto (simulato)",
+   "reviewed_at": "2026-10-21T08:15:00",
+   "supersedes_version": 1
+  },
+  {
+   "card_id": "CARD-P22-SBA-01",
+   "version": 1,
+   "status": "pubblicata",
+   "task_id": "P22-sbavatura",
+   "context": {
+    "value": "P-22 lotto standard",
+    "segment_ids": [
+     "SRC-003#1"
+    ]
+   },
+   "action": {
+    "value": "Sbavare con lima fine solo il lato interno",
+    "segment_ids": [
+     "SRC-003#1"
+    ]
+   },
+   "rationale": {
+    "value": "Il lato esterno ha il raggio di tenuta, che si rovina se lavorato",
+    "segment_ids": [
+     "SRC-003#2"
+    ]
+   },
+   "expert": "Esperto 2 (simulato)",
+   "conflicts": [],
+   "reviewer": "Capo reparto (simulato)",
+   "reviewed_at": "2026-11-14T09:35:00"
+  },
+  {
+   "card_id": "CARD-P22-SBA-02",
+   "version": 1,
+   "status": "bozza",
+   "task_id": "P22-sbavatura",
+   "context": {
+    "value": "P-22 lotto standard",
+    "segment_ids": [
+     "SRC-004#1"
+    ]
+   },
+   "action": {
+    "value": "Sbavare con spazzola rotante su entrambi i lati",
+    "segment_ids": [
+     "SRC-004#1"
+    ]
+   },
+   "rationale": {
+    "value": null,
+    "segment_ids": []
+   },
+   "expert": "Esperto 1 (simulato)",
+   "conflicts": [
+    "CARD-P22-SBA-01"
+   ]
+  }
+ ]
 }

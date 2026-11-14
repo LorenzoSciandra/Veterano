@@ -83,6 +83,31 @@ def run_case(case: dict) -> tuple[bool, str]:
         saved = s.save_card(card)
         return saved.conflicts == exp["conflicts"], f"conflicts={saved.conflicts}"
 
+    if op == "retire_then_ask":
+        s.retire(case["card_id"], reviewer="Capo reparto (simulato)")
+        ask = case["ask"]
+        used, outcome = applicable(s.all_latest(), ask["task_id"], ask["context"])
+        got = {"outcome": outcome, "used": [c.card_id for c in used]}
+        return got == {"outcome": exp["outcome"], "used": exp["used"]}, str(got)
+
+    if op == "ask_version":
+        used, outcome = applicable(s.all_latest(), case["task_id"], case["context"])
+        got = {"outcome": outcome, "used": [c.card_id for c in used]}
+        passed = got == {"outcome": exp["outcome"], "used": exp["used"]}
+        if passed:
+            prev = s.previous_published(used[0])
+            got.update(version=used[0].version, previous=prev.version if prev else None)
+            passed = used[0].version == exp["used_version"] and prev is not None and prev.version == exp["previous_version"]
+        return passed, str(got)
+
+    if op == "resolve_then_ask":
+        s.resolve_conflict(case["keep"], case["drop"], reviewer="Capo reparto (simulato)")
+        ask = case["ask"]
+        used, outcome = applicable(s.all_latest(), ask["task_id"], ask["context"])
+        got = {"outcome": outcome, "used": [c.card_id for c in used], "dropped": s.latest(case["drop"]).status}
+        return got == {"outcome": exp["outcome"], "used": exp["used"], "dropped_status": exp["dropped_status"]} or (
+            got["outcome"] == exp["outcome"] and got["used"] == exp["used"] and got["dropped"] == exp["dropped_status"]), str(got)
+
     return False, f"op sconosciuta: {op}"
 
 

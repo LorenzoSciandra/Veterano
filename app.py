@@ -23,7 +23,7 @@ from veterano.store import DEFAULT_DB, Store
 ROOT = Path(__file__).resolve().parent
 FIXTURES = ROOT / "data" / "fixtures" / "p17.json"
 LABEL = {"context": "Vale per", "action": "Cosa fare", "rationale": "Perché"}
-STATUS = {"bozza": ("Da completare", "amber"), "pubblicata": ("Approvata", "green"), "respinta": ("Respinta", "red")}
+STATUS = {"bozza": ("Da completare", "amber"), "pubblicata": ("Approvata", "green"), "respinta": ("Respinta", "red"), "ritirata": ("Ritirata", "red")}
 
 st.set_page_config(page_title="Il Veterano", page_icon="🛠️", layout="centered", initial_sidebar_state="collapsed")
 st.markdown(
@@ -31,7 +31,7 @@ st.markdown(
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root { --ink:#0B0A0A; --card:#161515; --line:rgba(255,255,255,.14); --dim:rgba(255,255,255,.62);
-        --blue:#44A7D6; --green:#3FB97F; --amber:#E8A33D; --red:#D0425A; }
+        --blue:#44A7D6; --green:#3FB97F; --amber:#E8A33D; --red:#E5484D; }
 html, body, .stApp, [class*="css"], input, textarea, button { font-family:"Inter Tight", system-ui, sans-serif !important; }
 .stApp { background: var(--ink); }
 [data-testid="stSidebar"], [data-testid="collapsedControl"], header [data-testid="stToolbar"] { display:none; }
@@ -121,6 +121,9 @@ def render_answer(t: AnswerTrace) -> None:
         c = next(h for h in store.history(cid) if h.version == ver)
         text = re.sub(r"\s*\[CARD-[^\]]+\]\s*$", "", t.answer)
         src = f"Fonte: {e(task_title(c.task_id))} · {e(c.context.value)} · versione {ver} · approvata da {e(c.reviewer)}"
+        prev = store.previous_published(c)
+        if prev:
+            src += f" · aggiorna la versione {prev.version} del {prev.reviewed_at:%d/%m/%Y}"
         st.markdown(
             f"<div class='bubble bot green'><div class='head'>✓ Istruzione approvata</div>{e(text)}<div class='src'>{src}</div></div>",
             unsafe_allow_html=True,
@@ -128,8 +131,13 @@ def render_answer(t: AnswerTrace) -> None:
         st.button("Vedi la scheda", key=f"see-{t.trace_id}", on_click=go_card, args=(cid,))
         return
     drafts = [cid for cid, _ in t.candidate_cards if store.latest(cid).status == "bozza"]
-    if t.rule_outcome == "no_published_card":
+    retired = [cid for cid, _ in t.candidate_cards if store.latest(cid).status == "ritirata"]
+    if t.rule_outcome == "no_published_card" and drafts:
         head, body = "Non rispondo ancora", "C'è un'istruzione dell'esperto, ma nessun responsabile l'ha ancora approvata."
+    elif t.rule_outcome == "no_published_card" and retired:
+        head, body = "Non rispondo", "L'istruzione che c'era è stata ritirata dal responsabile. Non uso istruzioni ritirate."
+    elif t.rule_outcome == "no_published_card":
+        head, body = "Non rispondo", "Non ho istruzioni approvate su questo. Non invento."
     elif t.rule_outcome == "context_mismatch" and t.context:
         head, body = "Non rispondo", f"Non ho istruzioni approvate per {e(t.context)}. Chiedi al responsabile."
     elif t.rule_outcome == "context_mismatch":
@@ -196,11 +204,44 @@ def card_view(c: Card) -> None:
         rows.append(f"<div class='row'><div class='k'>{LABEL[name]}</div><div>{val}</div></div>")
     st.markdown("".join(rows), unsafe_allow_html=True)
 
+    prev = store.previous_published(c) if c.status == "pubblicata" else None
+    if prev:
+        st.markdown(
+            f"<div class='row' style='opacity:.75'><div class='k'>Prima era</div><div>"
+            f"<div class='v' style='text-decoration:line-through;color:var(--dim)'>{e(prev.action.value)}</div>"
+            f"<div class='quote' style='font-style:normal'>versione {prev.version}, approvata il {prev.reviewed_at:%d/%m/%Y} da {e(prev.reviewer)}: "
+            f"sostituita il {c.reviewed_at:%d/%m/%Y}</div></div></div>",
+            unsafe_allow_html=True,
+        )
+
+    if c.conflicts and c.status == "bozza":
+        other = store.latest(c.conflicts[0])
+        st.markdown("<div class='ask' style='margin-top:18px;border-color:var(--red)'><div class='who' style='color:var(--red)'>"
+                    "Due istruzioni dicono cose diverse per la stessa variante</div>Decidi quale vale. L'altra viene ritirata, la storia resta.</div>",
+                    unsafe_allow_html=True)
+        left, right = st.columns(2)
+        for col, card, other_id in ((left, c, other.card_id), (right, other, c.card_id)):
+            label, color = STATUS[card.status]
+            q = "".join(f"<div class='quote'>“{e(store.segment(x).text)}” — {e(store.segment(x).expert)}</div>" for x in card.action.segment_ids)
+            col.markdown(f"<span class='chip {color}'>{label}</span><div class='v' style='font-size:21px;margin:8px 0'>{e(card.action.value)}</div>{q}",
+                         unsafe_allow_html=True)
+            if col.button("Vale questa", key=f"keep-{card.card_id}", type="primary"):
+                store.resolve_conflict(card.card_id, other_id, "Capo reparto")
+                ss.selected = card.card_id
+                st.rerun()
+
     if c.status == "pubblicata":
         st.markdown(
             f"<div class='done' style='margin-top:18px'>✓ Approvata da {e(c.reviewer)} · versione {c.version}. L'assistente la usa per rispondere.</div>",
             unsafe_allow_html=True,
         )
+        if st.button("Ritira questa istruzione"):
+            store.retire(c.card_id, "Capo reparto")
+            st.rerun()
+    elif c.status in ("ritirata", "respinta"):
+        st.markdown(f"<div class='ask' style='margin-top:18px;border-color:var(--red)'><div class='who' style='color:var(--red)'>{STATUS[c.status][0]}</div>"
+                    f"Da {e(c.reviewer)} il {c.reviewed_at:%d/%m/%Y %H:%M}. L'assistente non la usa più; la storia resta qui sotto.</div>",
+                    unsafe_allow_html=True)
     elif c.status == "bozza":
         gaps = detect_gaps(c)
         if gaps:
@@ -226,8 +267,8 @@ def card_view(c: Card) -> None:
                 if st.button("✓ Approva e pubblica", type="primary"):
                     store.publish(c.card_id, rev)
                     st.rerun()
-            else:
-                st.warning(reason.replace("Conflitto aperto con", "In contrasto con un'altra istruzione approvata"))
+            elif not c.conflicts:
+                st.warning(reason)
     with st.expander("Storico modifiche"):
         for h in store.history(c.card_id):
             who = f" · {h.reviewer}" if h.reviewer else ""

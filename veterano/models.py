@@ -7,7 +7,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 FieldName = Literal["context", "action", "rationale"]
-Status = Literal["bozza", "pubblicata", "respinta"]
+Status = Literal["bozza", "pubblicata", "respinta", "ritirata"]
 RuleOutcome = Literal[
     "answered",
     "no_published_card",

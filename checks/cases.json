@@ -1,41 +1,215 @@
 {
-  "_nota": "12 casi scritti da un umano prima di eseguire. Ogni caso parte da un DB pulito caricato da data/fixtures/p17.json.",
-  "cases": [
-    {"id": "C01", "group": "completo", "op": "ask", "task_id": "P17-serraggio", "context": "P-17 variante A",
-     "expect": {"outcome": "answered", "used": ["CARD-P17-SER-01"]}},
-    {"id": "C02", "group": "completo", "op": "ask", "task_id": "P22-sbavatura", "context": "P-22 lotto standard",
-     "expect": {"outcome": "answered", "used": ["CARD-P22-SBA-01"]}},
-    {"id": "C03", "group": "completo", "op": "ask", "task_id": "P17-serraggio", "context": "p17 Variante a",
-     "expect": {"outcome": "answered", "used": ["CARD-P17-SER-01"]}},
-
-    {"id": "C04", "group": "lacune", "op": "gaps", "card_id": "CARD-P17-VIS-01",
-     "expect": {"rules": ["R1", "R2"]}},
-    {"id": "C05", "group": "lacune", "op": "gaps", "card_id": "CARD-P22-SBA-02",
-     "expect": {"rules": ["R2"]}},
-    {"id": "C06", "group": "lacune", "op": "ask", "task_id": "P17-controllo-visivo", "context": "P-17 variante A",
-     "expect": {"outcome": "no_published_card", "used": []}},
-
-    {"id": "C07", "group": "fuori_ambito", "op": "ask", "task_id": "P99-verniciatura", "context": "P-99",
-     "expect": {"outcome": "unknown_task", "used": []}},
-    {"id": "C08", "group": "fuori_ambito", "op": "ask", "task_id": "P17-serraggio", "context": "P-17 variante B",
-     "expect": {"outcome": "context_mismatch", "used": []}},
-
-    {"id": "C09", "group": "conflitto_stesso_contesto", "op": "fill_then_publish", "card_id": "CARD-P22-SBA-02",
-     "fill": {"rationale": "Si fa prima"},
-     "expect": {"can_publish": false, "reason_contains": "Conflitto"}},
-    {"id": "C10", "group": "conflitto_stesso_contesto", "op": "save_and_detect_conflict",
-     "new_card": {"card_id": "CARD-P17-SER-02", "task_id": "P17-serraggio", "context": "P-17 variante A",
-                  "action": "Serrare le viti in sequenza circolare"},
-     "expect": {"conflicts": ["CARD-P17-SER-01"]},
-     "not_implemented": "Il rilevamento automatico del conflitto al salvataggio non è nell'MVP: oggi i conflitti sono dichiarati."},
-
-    {"id": "C11", "group": "compatibili_contesti_diversi", "op": "demo_flow_then_ask", "card_id": "CARD-P17-VIS-01",
-     "answers": {"context": "P-17 variante A", "rationale": "Evita di registrare come conforme un pezzo con un difetto di superficie che a occhio nudo non si distingue"},
-     "ask": {"task_id": "P17-controllo-visivo", "context": "P-17 variante A"},
-     "expect": {"outcome": "answered", "used": ["CARD-P17-VIS-01"], "used_version": 4}},
-    {"id": "C12", "group": "compatibili_contesti_diversi", "op": "demo_flow_then_ask", "card_id": "CARD-P17-VIS-01",
-     "answers": {"context": "P-17 variante A", "rationale": "Evita di registrare come conforme un pezzo con un difetto di superficie che a occhio nudo non si distingue"},
-     "ask": {"task_id": "P17-controllo-visivo", "context": "P-17 variante B"},
-     "expect": {"outcome": "context_mismatch", "used": []}}
-  ]
+ "_nota": "15 casi con risposta attesa scritta prima di eseguire (dall'agente; li rilegge un umano). Ogni caso parte da un DB pulito caricato da data/fixtures/p17.json.",
+ "cases": [
+  {
+   "id": "C01",
+   "group": "completo",
+   "op": "ask",
+   "task_id": "P17-serraggio",
+   "context": "P-17 variante A",
+   "expect": {
+    "outcome": "answered",
+    "used": [
+     "CARD-P17-SER-01"
+    ]
+   }
+  },
+  {
+   "id": "C02",
+   "group": "completo",
+   "op": "ask",
+   "task_id": "P22-sbavatura",
+   "context": "P-22 lotto standard",
+   "expect": {
+    "outcome": "answered",
+    "used": [
+     "CARD-P22-SBA-01"
+    ]
+   }
+  },
+  {
+   "id": "C03",
+   "group": "completo",
+   "op": "ask",
+   "task_id": "P17-serraggio",
+   "context": "p17 Variante a",
+   "expect": {
+    "outcome": "answered",
+    "used": [
+     "CARD-P17-SER-01"
+    ]
+   }
+  },
+  {
+   "id": "C04",
+   "group": "lacune",
+   "op": "gaps",
+   "card_id": "CARD-P17-VIS-01",
+   "expect": {
+    "rules": [
+     "R1",
+     "R2"
+    ]
+   }
+  },
+  {
+   "id": "C05",
+   "group": "lacune",
+   "op": "gaps",
+   "card_id": "CARD-P22-SBA-02",
+   "expect": {
+    "rules": [
+     "R2"
+    ]
+   }
+  },
+  {
+   "id": "C06",
+   "group": "lacune",
+   "op": "ask",
+   "task_id": "P17-controllo-visivo",
+   "context": "P-17 variante A",
+   "expect": {
+    "outcome": "no_published_card",
+    "used": []
+   }
+  },
+  {
+   "id": "C07",
+   "group": "fuori_ambito",
+   "op": "ask",
+   "task_id": "P99-verniciatura",
+   "context": "P-99",
+   "expect": {
+    "outcome": "unknown_task",
+    "used": []
+   }
+  },
+  {
+   "id": "C08",
+   "group": "fuori_ambito",
+   "op": "ask",
+   "task_id": "P17-serraggio",
+   "context": "P-17 variante B",
+   "expect": {
+    "outcome": "context_mismatch",
+    "used": []
+   }
+  },
+  {
+   "id": "C09",
+   "group": "conflitto_stesso_contesto",
+   "op": "fill_then_publish",
+   "card_id": "CARD-P22-SBA-02",
+   "fill": {
+    "rationale": "Si fa prima"
+   },
+   "expect": {
+    "can_publish": false,
+    "reason_contains": "Conflitto"
+   }
+  },
+  {
+   "id": "C10",
+   "group": "conflitto_stesso_contesto",
+   "op": "save_and_detect_conflict",
+   "new_card": {
+    "card_id": "CARD-P17-SER-02",
+    "task_id": "P17-serraggio",
+    "context": "P-17 variante A",
+    "action": "Serrare le viti in sequenza circolare"
+   },
+   "expect": {
+    "conflicts": [
+     "CARD-P17-SER-01"
+    ]
+   }
+  },
+  {
+   "id": "C11",
+   "group": "compatibili_contesti_diversi",
+   "op": "demo_flow_then_ask",
+   "card_id": "CARD-P17-VIS-01",
+   "answers": {
+    "context": "P-17 variante A",
+    "rationale": "Evita di registrare come conforme un pezzo con un difetto di superficie che a occhio nudo non si distingue"
+   },
+   "ask": {
+    "task_id": "P17-controllo-visivo",
+    "context": "P-17 variante A"
+   },
+   "expect": {
+    "outcome": "answered",
+    "used": [
+     "CARD-P17-VIS-01"
+    ],
+    "used_version": 4
+   }
+  },
+  {
+   "id": "C12",
+   "group": "compatibili_contesti_diversi",
+   "op": "demo_flow_then_ask",
+   "card_id": "CARD-P17-VIS-01",
+   "answers": {
+    "context": "P-17 variante A",
+    "rationale": "Evita di registrare come conforme un pezzo con un difetto di superficie che a occhio nudo non si distingue"
+   },
+   "ask": {
+    "task_id": "P17-controllo-visivo",
+    "context": "P-17 variante B"
+   },
+   "expect": {
+    "outcome": "context_mismatch",
+    "used": []
+   }
+  },
+  {
+   "id": "C13",
+   "group": "ritiro",
+   "op": "retire_then_ask",
+   "card_id": "CARD-P17-SER-01",
+   "ask": {
+    "task_id": "P17-serraggio",
+    "context": "P-17 variante A"
+   },
+   "expect": {
+    "outcome": "no_published_card",
+    "used": []
+   }
+  },
+  {
+   "id": "C14",
+   "group": "cambiato_nel_tempo",
+   "op": "ask_version",
+   "task_id": "P17-serraggio",
+   "context": "P-17 variante A",
+   "expect": {
+    "outcome": "answered",
+    "used": [
+     "CARD-P17-SER-01"
+    ],
+    "used_version": 2,
+    "previous_version": 1
+   }
+  },
+  {
+   "id": "C15",
+   "group": "conflitto_stesso_contesto",
+   "op": "resolve_then_ask",
+   "keep": "CARD-P22-SBA-01",
+   "drop": "CARD-P22-SBA-02",
+   "ask": {
+    "task_id": "P22-sbavatura",
+    "context": "P-22 lotto standard"
+   },
+   "expect": {
+    "outcome": "answered",
+    "used": [
+     "CARD-P22-SBA-01"
+    ],
+    "dropped_status": "respinta"
+   }
+  }
+ ]
 }
