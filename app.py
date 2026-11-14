@@ -1,6 +1,7 @@
 """Il Veterano — UI Streamlit: Assistente e Memoria del reparto. Avvio: .venv/bin/streamlit run app.py"""
 from __future__ import annotations
 
+import os
 from datetime import datetime
 from pathlib import Path
 
@@ -38,7 +39,7 @@ st.markdown(
 
 @st.cache_resource
 def get_store() -> Store:
-    s = Store(DEFAULT_DB)
+    s = Store(os.getenv("VETERANO_DB", DEFAULT_DB))
     if not s.all_latest():
         s.load_fixtures(FIXTURES)
     return s

@@ -8,3 +8,5 @@ data/veterano.db
 # documento interno di preparazione: fuori dal repo pubblico finché il team non decide
 Hackathon_AI_Brain_proposte_aggiornate.pdf
 !.env.example
+delivery/out/
+data/record.db
