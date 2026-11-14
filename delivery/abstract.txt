@@ -1,5 +1,6 @@
-Il Veterano rende visibile e revisionabile la memoria di un reparto. Quando un tecnico esperto se ne va, oggi il suo sapere si recupera con affiancamento, appunti e «chiedi a chi c'era».
-Il Veterano trasforma il racconto dell'esperto in istruzioni con fonte (le sue parole esatte), variante e motivazione. Tre regole deterministiche, non il modello, decidono: se manca la variante o il perché, il sistema lo chiede all'esperto, una domanda alla volta; l'assistente risponde solo da istruzioni approvate da un responsabile e valide per la variante richiesta; altrimenti non risponde e dice perché. Ogni risposta mostra la fonte e la versione usata.
-Track 3b, Memory for people. La demo è reale e gira su uno scenario sintetico, dichiarato tale.
-Ipotesi più rischiosa: un capo reparto dedica davvero tempo ad approvare le istruzioni. Criterio di stop: meno di 2 persone su 4 con un caso reale e costoso di sapere perso. Le interviste reali sono in corso; finora abbiamo solo personaggi simulati, che non contiamo come evidenza.
-Strumenti: Claude Opus 5.5 in Claude Code per lo sviluppo; nel prodotto Claude Haiku 5.5 via Vercel AI Gateway; Python, Streamlit, SQLite.
+Un collaudatore con trent'anni di reparto va in pensione a dicembre. Quello che sa su come si controlla un pezzo non è scritto da nessuna parte: chi arriva dopo lo impara in mesi di affiancamento, o sbagliando.
+Il Veterano raccoglie quel sapere prima che se ne vada. Nelle ultime settimane di lavoro l'esperto racconta come fa un controllo, a voce o per iscritto, dieci minuti al giorno. Il sistema ne ricava una scheda con le sue parole esatte e gli chiede solo quello che manca: per quale variante vale, perché lo fa. Non è un questionario fisso: ogni domanda nasce da un buco della scheda.
+Una volta a settimana il capo reparto rilegge le schede accanto alle frasi originali e approva quelle giuste. Solo da quel momento l'assistente può usarle.
+Da lì in poi, anche quando l'esperto non c'è più, l'operatore chiede al Veterano come fare quel controllo. La risposta arriva con la fonte e la versione approvata. Se l'istruzione manca o non vale per la sua variante, l'assistente lo dice e non inventa.
+Ci resta da verificare una cosa: che un capo reparto trovi davvero quei minuti ogni settimana.
+Track 3b. Strumenti: Claude Opus 5.5 (sviluppo), Claude Haiku 5.5 (prodotto), Python, Streamlit.

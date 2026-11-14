@@ -6,7 +6,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   :root { --ink:#0B0A0A; --white:#fff; --dim:rgba(255,255,255,.6); --faint:rgba(255,255,255,.32);
-          --accent:#44A7D6; --sans:"Inter Tight",system-ui,sans-serif; --mono:ui-monospace,"DejaVu Sans Mono",monospace; }
+          --accent:#44A7D6; --red:#E5484D; --green:#3FB97F; --sans:"Inter Tight",system-ui,sans-serif; --mono:ui-monospace,"DejaVu Sans Mono",monospace; }
   * { box-sizing:border-box; margin:0; padding:0; }
   html,body { width:1280px; height:720px; overflow:hidden; background:var(--ink); color:#fff; font-family:var(--sans); }
   .grid { position:absolute; inset:0; background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px); background-size:22px 22px; }
@@ -24,7 +24,7 @@
   .circle span.act { border-color:var(--accent); color:#fff; background:rgba(68,167,214,.2); }
   .how { margin-top:34px; }
   .how div { display:flex; gap:26px; align-items:baseline; font-size:44px; font-weight:300; line-height:1.25; margin:14px 0; }
-  .how b { font-family:var(--mono); font-weight:400; font-size:24px; color:var(--accent); width:44px; }
+  .how b { font-family:var(--mono); font-weight:400; font-size:24px; color:inherit; opacity:.7; width:44px; }
   .term { position:absolute; top:150px; right:96px; border:3px double rgba(255,255,255,.5); padding:16px 22px; font-family:var(--mono); font-size:20px; line-height:1.5; color:rgba(255,255,255,.72); }
   .term .hl { background:rgba(68,167,214,.35); color:#fff; } .term .b { color:var(--accent); }
   /* demo */
@@ -70,16 +70,17 @@
 <section class="scene" id="s2">
   <div class="circle"><span class="act">Perché</span><span>Come</span><span>Cosa</span></div>
   <div class="bottom">
-    <div class="lead" data-words>Oggi, quando un esperto se ne va, il suo sapere sparisce.</div>
-    <div class="h sm" style="margin-top:28px" data-words data-delay="1300">E un assistente che risponde senza fonte non è affidabile.</div>
+    <div class="label" style="margin-bottom:22px;color:var(--red)">Il problema</div>
+    <div class="lead" style="color:rgba(229,72,77,.75)" data-words>Oggi, quando un esperto se ne va, il suo sapere sparisce.</div>
+    <div class="h sm" style="margin-top:28px;color:var(--red)" data-words data-delay="1300">E un assistente che risponde senza fonte non è affidabile.</div>
   </div>
 </section>
 
 <!-- COME -->
 <section class="scene" id="s3">
   <div class="circle"><span>Perché</span><span class="act">Come</span><span>Cosa</span></div>
-  <div class="label" style="margin-top:110px">Come</div>
-  <div class="how">
+  <div class="label" style="margin-top:110px;color:var(--green)">La soluzione · Come</div>
+  <div class="how" style="color:var(--green)">
     <div><b class="w" style="--t:100ms">01</b><span class="w" style="--t:150ms">Chiede all'esperto solo ciò che manca.</span></div>
     <div><b class="w" style="--t:1500ms">02</b><span class="w" style="--t:1550ms">Un responsabile approva.</span></div>
     <div><b class="w" style="--t:2900ms">03</b><span class="w" style="--t:2950ms">Risponde solo da istruzioni approvate, con la fonte.</span></div>
