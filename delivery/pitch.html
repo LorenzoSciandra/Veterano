@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Il Veterano · pitch</title>
+<style>
+  :root { --ink:#0B0A0A; --card:#151414; --line:rgba(255,255,255,.12); --dim:rgba(255,255,255,.62); --faint:rgba(255,255,255,.4);
+          --blue:#44A7D6; --green:#3FB97F; --amber:#E8A33D; --red:#E5484D; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--ink); color:#fff; font-family:"Inter Tight","Inter",system-ui,sans-serif; line-height:1.5; }
+  main { max-width:920px; margin:0 auto; padding:56px 24px 80px; }
+  .label { font-family:ui-monospace,"DejaVu Sans Mono",monospace; font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--blue); }
+  h1 { font-weight:400; font-size:clamp(40px,7vw,72px); line-height:1.02; letter-spacing:-.02em; text-transform:uppercase; margin:14px 0 10px; }
+  h1 .b { color:var(--blue); }
+  h2 { font-weight:400; font-size:30px; letter-spacing:-.01em; margin:6px 0 14px; }
+  section { padding:40px 0; border-top:1px solid var(--line); }
+  p { color:var(--dim); font-size:19px; margin:8px 0; max-width:760px; }
+  p strong { color:#fff; font-weight:500; }
+  .lead { font-size:22px; color:#fff; }
+  .red { color:var(--red); } .green { color:var(--green); } .amber { color:var(--amber); }
+  .roles { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px; }
+  .role { background:var(--card); border:1px solid var(--line); border-top:4px solid; border-radius:10px; padding:16px; }
+  .role .r { font-family:ui-monospace,monospace; font-size:13px; text-transform:uppercase; letter-spacing:.06em; }
+  .role .when { color:#fff; font-size:18px; margin:6px 0; }
+  .role p { font-size:16px; margin:0; }
+  ol.rules { list-style:none; margin-top:12px; }
+  ol.rules li { display:flex; gap:16px; font-size:20px; padding:10px 0; border-bottom:1px solid var(--line); }
+  ol.rules b { font-family:ui-monospace,monospace; font-weight:400; color:var(--green); }
+  table { width:100%; border-collapse:collapse; margin-top:12px; font-size:16px; }
+  th, td { text-align:left; padding:10px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--faint); font-weight:500; font-size:13px; text-transform:uppercase; letter-spacing:.05em; }
+  td { color:var(--dim); } td:first-child { color:#fff; }
+  .ok { color:var(--green); } .todo { color:var(--amber); }
+  .cta { display:inline-block; margin-top:14px; padding:12px 18px; border:1px solid var(--blue); border-radius:10px; color:#fff; text-decoration:none; font-size:18px; }
+  .big { font-size:clamp(34px,6vw,58px); line-height:1.05; text-transform:uppercase; letter-spacing:-.02em; font-weight:400; }
+  .mk { font-family:ui-monospace,monospace; font-size:12px; color:var(--faint); }
+  footer { color:var(--faint); font-size:14px; padding-top:30px; border-top:1px solid var(--line); }
+  @media (max-width:700px) { .roles { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<main>
+
+<div class="label">Hackathon AI brain for industry · Track 3b · Making memory visible to people</div>
+<h1>L'esperto va in pensione.<br><span class="b">Il suo sapere, no.</span></h1>
+<p class="lead">Il Veterano è la memoria di reparto che il capo reparto può vedere, correggere e approvare. L'assistente risponde solo da lì.</p>
+
+<section>
+  <div class="label" style="color:var(--red)">Perché</div>
+  <h2 class="red">Quando un esperto se ne va, il suo sapere sparisce.</h2>
+  <p>Un collaudatore con trent'anni di reparto sa quale riflesso su un pezzo è un difetto e quale no. Non è scritto da nessuna parte. Chi arriva dopo lo impara con mesi di affiancamento, o sbagliando.</p>
+  <p>Gli assistenti AI non risolvono il problema da soli: rispondono anche quando non sanno, e nessuno in reparto può vedere da dove viene una risposta o correggerla.</p>
+  <p><strong>Chi ha il problema:</strong> il capo reparto o il responsabile qualità di una PMI manifatturiera, quando un tecnico chiave annuncia la pensione. <strong>Chi paga:</strong> il responsabile operativo. <span class="mk">[declared]</span></p>
+</section>
+
+<section>
+  <div class="label" style="color:var(--green)">Come</div>
+  <h2 class="green">Tre regole, decise dal codice e non dal modello.</h2>
+  <ol class="rules">
+    <li><b>01</b><span>Se in una scheda mancano la variante o il perché, il sistema lo chiede all'esperto. Una domanda alla volta, nata dal buco della scheda.</span></li>
+    <li><b>02</b><span>Solo il capo reparto approva. Prima, l'assistente non usa la scheda.</span></li>
+    <li><b>03</b><span>L'assistente risponde solo da schede approvate e valide per la variante richiesta, e mostra fonte e versione. Altrimenti dice perché non risponde.</span></li>
+  </ol>
+  <div class="roles">
+    <div class="role" style="border-top-color:var(--amber)"><div class="r amber">Esperto</div><div class="when">Ultime settimane prima di uscire</div><p>Racconta un controllo, a voce o per iscritto, dieci minuti al giorno. Risponde solo alle domande su ciò che manca.</p></div>
+    <div class="role" style="border-top-color:var(--green)"><div class="r green">Capo reparto</div><div class="when">Una volta a settimana</div><p>Rilegge ogni scheda accanto alle parole originali dell'esperto. Approva, ritira, o decide quale vale tra due istruzioni in contrasto.</p></div>
+    <div class="role" style="border-top-color:var(--blue)"><div class="r" style="color:var(--blue)">Operatore</div><div class="when">Ogni giorno, anche dopo</div><p>Chiede come fare un controllo. Riceve la risposta con fonte e versione, oppure un «non lo so» onesto.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="label">Cosa · demo reale</div>
+  <h2>Prima e dopo l'approvazione, la stessa domanda.</h2>
+  <p>«Come controllo la P-17 variante A?» → nessuna risposta, c'è solo una bozza. L'esperto completa la variante e il perché, il capo reparto approva, e la stessa domanda ora ha risposta con <strong>fonte e versione 4</strong>. Per la variante B l'assistente non risponde.</p>
+  <a class="cta" href="⟦URL_DEMO⟧">Apri la demo ⟶</a> &nbsp; <a class="cta" href="https://github.com/LorenzoSciandra/Veterano">Codice su GitHub ⟶</a>
+  <table>
+    <tr><th>Cosa chiede il brief del track</th><th>Nel Veterano</th><th></th></tr>
+    <tr><td>Un fatto che è cambiato nel tempo</td><td>Il serraggio della P-17: la versione nuova mostra cosa sostituisce e da quando</td><td class="ok">✓ demo</td></tr>
+    <tr><td>Due fatti in contrasto</td><td>Due modi di sbavare la P-22, mostrati fianco a fianco: decide il capo reparto</td><td class="ok">✓ demo</td></tr>
+    <tr><td>Trovare, vedere fonte e data, correggere o ritirare</td><td>Ogni scheda mostra le parole dell'esperto con data; pulsanti Approva e Ritira</td><td class="ok">✓ demo</td></tr>
+    <tr><td>La correzione cambia la risposta successiva</td><td>Stessa domanda prima e dopo: cambia la risposta e la versione citata</td><td class="ok">✓ dal vivo</td></tr>
+    <tr><td>Test con una persona esterna al team</td><td>⟦esito del test di pranzo: riuscito sì/no, minuti⟧</td><td class="todo">⟦⟧</td></tr>
+  </table>
+  <p class="mk">Scenario interamente simulato (pezzi P-17 e P-22): sono dati di prova, non istruzioni operative reali.</p>
+</section>
+
+<section>
+  <div class="label">Cosa sappiamo davvero</div>
+  <h2>Evidenza, senza abbellimenti.</h2>
+  <table>
+    <tr><th>Cosa</th><th>Risultato</th></tr>
+    <tr><td>Check set: 15 casi con risposta attesa</td><td>15/15: completi, lacune, fuori ambito, contrasti, varianti diverse, ritiro, fatto cambiato nel tempo</td></tr>
+    <tr><td>Interviste</td><td>Nessuna intervista reale ancora. Abbiamo usato personaggi simulati solo per preparare le domande e le obiezioni, e non li contiamo come evidenza.</td></tr>
+    <tr><td>Test con una persona esterna</td><td>⟦risultato⟧</td></tr>
+  </table>
+</section>
+
+<section>
+  <div class="label">Chi c'è già</div>
+  <h2>La categoria esiste. Il pezzo che manca è la revisione umana.</h2>
+  <table>
+    <tr><th>Alternativa</th><th>Cosa fa</th><th>Cosa non fa</th></tr>
+    <tr><td>Interloom</td><td>Sapere tacito come memoria per agenti, seed €14,2M nel 2026 <span class="mk">[verified]</span></td><td>Enterprise, ingestione passiva: nessuna intervista sulle lacune</td></tr>
+    <tr><td>Poka, SwipeGuide, Augmentir</td><td>Istruzioni di lavoro generate con l'AI</td><td>Nessuna regola di applicabilità per variante, nessuna risposta legata alla versione</td></tr>
+    <tr><td>Guru</td><td>Schede verificate e risposte che le citano</td><td>Le sue guide dicono che schede verificate e no pesano uguale nelle risposte <span class="mk">[verified]</span></td></tr>
+    <tr><td>Memoria di Claude e ChatGPT</td><td>Memoria visibile e modificabile</td><td>Personale: nessuna vista di reparto, nessuna approvazione, nessuna fonte</td></tr>
+  </table>
+  <p><strong>Cosa è difficile da copiare:</strong> oggi poco, e lo diciamo. Il vantaggio arriva con lo schema di dominio validato reparto per reparto e con lo storico delle approvazioni, che solo chi lavora con quei capi reparto accumula.</p>
+</section>
+
+<section>
+  <div class="label">Business case · bozza</div>
+  <h2>Un pilota per esperto, poi un abbonamento per reparto.</h2>
+  <p>Pilota di 8 settimane (un esperto, un compito) a <strong>€4.000</strong>, poi <strong>€390 al mese</strong> per reparto. Primo anno: 8 piloti e 6 reparti in abbonamento, circa <strong>€60.000</strong>. Canali: consulenti qualità e ISO, eventi delle associazioni industriali. <span class="mk">[declared: stime del team, nessun prezzo verificato con un cliente]</span></p>
+  <p>Il servizio costa pochissimo da far girare: l'intera giornata di test del modello è costata meno di un centesimo di dollaro. <span class="mk">[verified: credito del team]</span> Il rischio vero è il tempo umano di revisione, ed è per questo che è la nostra ipotesi da verificare.</p>
+</section>
+
+<section>
+  <div class="label">Metodo</div>
+  <h2>Come l'abbiamo costruito, e cosa ha sbagliato l'agente.</h2>
+  <p>Sviluppo con <strong>Claude Opus 5.5</strong> in Claude Code; nel prodotto <strong>Claude Haiku 5.5</strong> via Vercel AI Gateway, che estrae le schede e formula le risposte. Le regole di applicabilità sono Python deterministico; i dati stanno in SQLite; l'interfaccia è in Streamlit.</p>
+  <p>Due errori dell'agente presi nei test: il modello restituiva risposte vuote perché finiva i token nel ragionamento (il sistema ripiegava in silenzio), e una domanda di seguito («e per la variante B?») perdeva il compito. Li abbiamo trovati leggendo l'output grezzo e li abbiamo corretti.</p>
+</section>
+
+<section>
+  <div class="label">Prossimo test</div>
+  <p class="big">Tre capi reparto,<br><span style="color:var(--blue)">una settimana.</span></p>
+  <p>Diamo il Veterano a 3 capi reparto di PMI manifatturiere con un esperto in uscita. Se meno di 2 su 3 approvano almeno 5 schede in una settimana, il tempo di revisione è il collo di bottiglia e ripensiamo il flusso prima di vendere.</p>
+</section>
+
+<footer>Il Veterano · Track 3b · Making memory visible to people · <a href="https://github.com/LorenzoSciandra/Veterano" style="color:var(--faint)">github.com/LorenzoSciandra/Veterano</a> · Strumenti AI: Claude Opus 5.5 (sviluppo), Claude Haiku 5.5 (prodotto)</footer>
+</main>
+</body>
+</html>

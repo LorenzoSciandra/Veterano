@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "currency": "EUR",
+  "note": "BOZZA da decidere con il team: ogni numero è [declared] (stima del team), nessuno è misurato. Orizzonte: primo anno. Pilota = 8 settimane: raccolta del sapere di un esperto su un compito, schede approvate, assistente attivo. Abbonamento per reparto dopo il pilota. Costo per servire un reparto: chiamate al modello stimate sotto 5 €/mese (oggi l'intera giornata di test è costata 0,01 $ [verified: credito Control8]), hosting ~20 €/mese [declared]. Àncora di valore da verificare con un cliente: il costo di un lotto scartato o di un fermo quando l'esperto non c'è, non le ore di affiancamento.",
+  "revenueLines": [
+    {
+      "key": "pilot",
+      "label": "Pilota 8 settimane (un esperto, un compito)",
+      "unit": "project_fee",
+      "priceCents": 400000,
+      "volume": 2,
+      "period": "quarter",
+      "recurring": false,
+      "models": ["b2b_licence"],
+      "metricKey": "quotes_out"
+    },
+    {
+      "key": "reparto_subscription",
+      "label": "Abbonamento per reparto",
+      "unit": "subscription_month",
+      "priceCents": 39000,
+      "volume": 6,
+      "period": "month",
+      "recurring": true,
+      "models": ["b2b_licence"],
+      "metricKey": "active_clients"
+    }
+  ],
+  "acquisition": {
+    "channels": [
+      {
+        "key": "partner_qualita",
+        "label": "Consulenti qualità e ISO che seguono PMI manifatturiere",
+        "channel": "partnership",
+        "costPerLeadCents": 4000,
+        "leadToConversionPct": 8,
+        "leads": 30,
+        "period": "quarter"
+      },
+      {
+        "key": "eventi_associazioni",
+        "label": "Eventi di associazioni industriali (es. territoriali)",
+        "channel": "events",
+        "costPerLeadCents": 12000,
+        "leadToConversionPct": 4,
+        "leads": 25,
+        "period": "quarter"
+      }
+    ],
+    "salesMachine": [
+      {
+        "key": "founder_sales",
+        "label": "Un fondatore part-time sulle vendite",
+        "headcount": 1,
+        "monthlyCostCents": 200000
+      }
+    ],
+    "adBudgetCents": null,
+    "adBudgetPeriod": "month"
+  }
+}
