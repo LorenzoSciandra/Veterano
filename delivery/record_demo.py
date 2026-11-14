@@ -49,7 +49,19 @@ CURSOR_JS = """
       + 'background:rgba(68,167,214,.35);border:3px solid #44A7D6;box-shadow:0 0 18px rgba(68,167,214,.8);'
       + 'z-index:2147483647;pointer-events:none;transition:transform .12s ease;';
     document.body.appendChild(c);
-    document.addEventListener('mousemove', e => { c.style.left = e.clientX + 'px'; c.style.top = e.clientY + 'px'; }, true);
+    const tag = document.createElement('div'); tag.id = '__tag';
+    tag.style.cssText = 'position:fixed;left:0;top:0;transform:translate(16px,14px);padding:5px 12px;border-radius:7px;'
+      + 'font:700 15px/1.1 "Inter Tight",system-ui,sans-serif;letter-spacing:.05em;text-transform:uppercase;'
+      + 'color:#0B0A0A;background:#44A7D6;z-index:2147483647;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.5);';
+    tag.textContent = 'Operatore';
+    document.body.appendChild(tag);
+    window.__setRole = (name, color) => {
+      tag.textContent = name; tag.style.background = color;
+      c.style.borderColor = color; c.style.boxShadow = `0 0 18px ${color}`; c.style.background = color + '55';
+      tag.animate([{ transform: 'translate(16px,14px) scale(1.35)' }, { transform: 'translate(16px,14px) scale(1)' }], { duration: 380, easing: 'ease-out' });
+    };
+    document.addEventListener('mousemove', e => { c.style.left = e.clientX + 'px'; c.style.top = e.clientY + 'px';
+      tag.style.left = e.clientX + 'px'; tag.style.top = e.clientY + 'px'; }, true);
     document.addEventListener('mousedown', e => {
       c.style.transform = 'scale(.7)';
       const r = document.createElement('div');
@@ -65,6 +77,14 @@ CURSOR_JS = """
   if (document.body) add(); else document.addEventListener('DOMContentLoaded', add);
 })();
 """
+
+
+ROLES = {"Operatore": "#44A7D6", "Esperto": "#E8A33D", "Capo reparto": "#3FB97F"}
+
+
+def role(page, name):
+    page.evaluate("([n, c]) => window.__setRole(n, c)", [name, ROLES[name]])
+    page.wait_for_timeout(500)
 
 
 def human_click(page, locator):
@@ -127,10 +147,14 @@ with sync_playwright() as p:
     page.get_by_text("Il Veterano").first.wait_for(timeout=60000)
     wait_idle(page)
     page.mouse.move(700, 420)
-    page.wait_for_timeout(500)
+    role(page, "Operatore")
 
     mark("ask1")
     ask(page, "Come controllo la P-17 variante A?", hold=2600)          # rifiuto: non approvata
+    if page.get_by_role("button", name="Completa l'istruzione").count() == 0:
+        page.screenshot(path=str(OUT / "fail.png"))
+        print("BOT:", page.locator(".bubble.bot").all_inner_texts())
+    role(page, "Esperto")
     click(page, "Completa l'istruzione")
     mark("card_open")
     page.wait_for_timeout(2400)                                          # "Vale per: manca", "Perché: manca"
@@ -151,11 +175,13 @@ with sync_playwright() as p:
         wait_idle(page)
         mark("saved")
         page.wait_for_timeout(1200)
+    role(page, "Capo reparto")
     page.mouse.wheel(0, -2000)   # torna su: si vedono i campi ora completi
     page.wait_for_timeout(1500)
     click(page, "✓ Approva e pubblica")
     mark("published")
     page.wait_for_timeout(2200)
+    role(page, "Operatore")
     nav(page, "Chiedi")
     mark("ask2")
     ask(page, "Come controllo la P-17 variante A?", hold=3400)          # risposta approvata, con fonte

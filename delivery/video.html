@@ -43,7 +43,7 @@
   .bar { position:absolute; left:400px; top:146px; width:832px; height:4px; display:flex; gap:6px; }
   .bar i { flex:1; background:rgba(255,255,255,.14); border-radius:2px; transition:background .35s; }
   .bar i.on { background:var(--accent); }
-  .frame { position:absolute; left:400px; top:166px; width:832px; height:474px; border:3px double rgba(255,255,255,.45); padding:2px; background:#000; }
+  .frame { position:absolute; left:400px; top:166px; width:832px; height:474px; border:3px solid rgba(255,255,255,.45); padding:2px; background:#000; transition:border-color .35s, box-shadow .35s; border-radius:6px; }
   .frame video { width:100%; height:100%; display:block; object-fit:cover; }
   .tag { position:absolute; left:400px; top:652px; font-family:var(--mono); font-size:14px; color:var(--faint); text-transform:uppercase; }
 </style>
@@ -101,23 +101,25 @@
   <div class="bar" id="bar"><i></i><i></i><i></i><i></i><i></i></div>
   <div class="steps" id="steps"></div>
   <div class="frame"><video id="demo" src="out/demo_cut.webm" muted playsinline preload="auto"></video></div>
-  <div class="tag">Demo reale · scenario simulato · il cerchio azzurro è il cursore</div>
+  <div class="tag">Demo reale · scenario simulato · il cursore porta il nome di chi agisce</div>
 </section>
 
-<!-- CHIUSURA -->
+<!-- CHIUSURA: frase d'impatto -->
 <section class="scene" id="s6">
-  <div class="label" style="margin-top:110px">Cosa verifichiamo oggi</div>
-  <div class="h sm" style="margin-top:26px;text-transform:none;font-size:60px" data-words data-delay="150">Un capo reparto dedica davvero tempo ad approvare le istruzioni?</div>
-  <div class="bottom" style="bottom:70px"><div class="label" style="color:var(--faint)">Il Veterano · Track 3b · Memory for people</div></div>
+  <div class="bottom" style="bottom:150px">
+    <div class="h" style="font-size:64px" data-words data-delay="100">L'esperto va in pensione.</div>
+    <div class="h blue" style="font-size:118px;margin-top:10px" data-words data-delay="800">Il suo sapere, no.</div>
+  </div>
+  <div class="bottom" style="bottom:64px"><div class="label" style="color:var(--faint)">Il Veterano · Making memory visible to people</div></div>
 </section>
 
 <script>
-const STEPS = [ // [inizio s in demo_cut.webm, ruolo, testo breve (colonna), titolo grande]
-  [0.0,   "Operatore",    "Chiede",                 "Chiede. Istruzione non approvata: nessuna risposta."],
-  [6.7,   "Esperto",      "Completa ciò che manca", "Il Veterano chiede all'esperto solo ciò che manca."],
-  [12.73, "Capo reparto", "Approva",                "Il capo reparto controlla e approva."],
-  [16.3,  "Operatore",    "Richiede",               "Ora risponde, e mostra la fonte."],
-  [21.74, "Operatore",    "Variante B",             "Variante B: nessuna risposta inventata."],
+const STEPS = [ // [inizio s in demo_cut.webm, ruolo, testo breve (colonna), titolo grande, colore del ruolo]
+  [0.0,   "Operatore",    "Chiede",                 "Chiede. Istruzione non approvata: nessuna risposta.", "#44A7D6"],
+  [6.1,   "Esperto",      "Completa ciò che manca", "Il Veterano chiede all'esperto solo ciò che manca.", "#E8A33D"],
+  [11.77, "Capo reparto", "Approva",                "Il capo reparto controlla e approva.", "#3FB97F"],
+  [15.77, "Operatore",    "Richiede",               "Ora risponde, e mostra la fonte.", "#44A7D6"],
+  [22.02, "Operatore",    "Variante B",             "Variante B: nessuna risposta inventata.", "#44A7D6"],
 ];
 const TIMELINE = [["s1",0,4.6],["s2",4.6,5],["s3",9.6,6],["s4",15.6,2.2],["s5",17.8,26.7],["s6",44.5,3.4]];
 const TOTAL = 47.9;
@@ -128,7 +130,12 @@ function buildSteps(){ document.getElementById("steps").innerHTML = STEPS.map((s
   `<div class="step" id="st${i}"><div class="n">0${i+1}</div><div><div class="r">${s[1]}</div><div class="t">${s[2]}</div></div></div>`).join(""); }
 function setStep(i){
   STEPS.forEach((_,j)=>{ const el=document.getElementById("st"+j); el.classList.toggle("act",j===i); el.classList.toggle("done",j<i); });
-  document.querySelectorAll("#bar i").forEach((b,j)=>b.classList.toggle("on",j<=i));
+  document.querySelectorAll("#bar i").forEach((b,j)=>{ b.classList.toggle("on",j<=i); b.style.background = j<=i ? STEPS[i][4] : ""; });
+  const col=STEPS[i][4];
+  document.querySelector(".frame").style.borderColor=col; document.querySelector(".frame").style.boxShadow=`0 0 32px ${col}55`;
+  document.getElementById("role").style.color=col;
+  STEPS.forEach((s,j)=>{ const el=document.getElementById("st"+j); el.style.borderLeftColor = j===i ? col : "transparent";
+    el.style.background = j===i ? col+"22" : ""; el.querySelector(".r").style.color = s[4]; });
   const t=document.getElementById("title"); t.classList.add("swap");
   setTimeout(()=>{ document.getElementById("role").textContent=`Passo 0${i+1} · ${STEPS[i][1]}`;
     document.getElementById("txt").textContent=STEPS[i][3]; t.classList.remove("swap"); },250);
