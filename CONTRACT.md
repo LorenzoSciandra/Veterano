@@ -121,8 +121,8 @@ load_fixtures(dir) -> None                 # popola il DB demo da data/fixtures
 2. Memoria: apro la bozza → contesto e motivazione mancanti, evidenziati.
 3. Domanda R1 → l'esperto risponde "Alla variante A; per B usiamo un'altra scheda" → nuovo segmento collegato al contesto.
 4. Domanda R2 → l'esperto risponde → motivazione collegata.
-5. Il responsabile apre i segmenti e pubblica → versione 3, pubblicata.
-6. Assistente: stessa domanda → risposta con CARD-P17-VIS-01 v3. "E per la variante B?" → `context_mismatch`.
+5. Il responsabile apre i segmenti e pubblica → versione 4, pubblicata (v1 bozza, v2 contesto, v3 motivazione).
+6. Assistente: stessa domanda → risposta con CARD-P17-VIS-01 v4. "E per la variante B?" → `context_mismatch`.
 
 ## Check set (checks/cases.json, 12 casi)
 
