@@ -33,8 +33,8 @@ mp4 = OUT / "idea.mp4"
 subprocess.run(
     [
         "ffmpeg", "-v", "error", "-y", "-ss", f"{offset:.2f}", "-i", str(raw),
-        "-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo",
-        "-map", "0:v:0", "-map", "1:a:0", "-t", "47.7",
+        "-i", str(OUT / "music.m4a"),
+        "-map", "0:v:0", "-map", "1:a:0", "-t", "47.9",
         "-vf", "scale=-2:720,fps=30,format=yuv420p",
         "-c:v", "libx264", "-preset", "medium", "-crf", "22", "-maxrate", "3M", "-bufsize", "6M",
         "-c:a", "aac", "-b:a", "128k", "-movflags", "+faststart", "-shortest", str(mp4),

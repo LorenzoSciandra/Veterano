@@ -35,7 +35,7 @@ st.markdown(
 html, body, .stApp, [class*="css"], input, textarea, button { font-family:"Inter Tight", system-ui, sans-serif !important; }
 .stApp { background: var(--ink); }
 [data-testid="stSidebar"], [data-testid="collapsedControl"], header [data-testid="stToolbar"] { display:none; }
-.block-container { max-width: 980px; padding-top: 2.2rem; }
+.block-container { max-width: 980px; padding-top: 1rem; }
 p, li, label, .stMarkdown { font-size: 21px !important; }
 h1 { font-weight: 400 !important; letter-spacing: -0.02em; text-transform: uppercase; font-size: 46px !important; }
 h1 .b { color: var(--blue); }
@@ -150,7 +150,7 @@ def page_ask() -> None:
         prev = ss.chat[-1].task_id if ss.chat else None
         with st.spinner("Cerco tra le istruzioni approvate…"):
             ss.chat.append(assistant.answer(q.strip(), store, previous_task=prev))
-    for t in reversed(ss.chat[-3:]):
+    for t in reversed(ss.chat[-2:]):  # meno ma meglio: l'ultimo scambio in alto, al massimo due
         render_answer(t)
 
 
