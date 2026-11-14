@@ -87,6 +87,10 @@ Sources: eu-startups.com/2026/03/german-startup-interloom-lands-e14-2-million-se
 ## Verification log
 | When | Cosa ha prodotto un agente | Cosa ha controllato un umano, e come | Errore dell'agente e come l'abbiamo preso |
 |------|----------------------------|--------------------------------------|-------------------------------------------|
+| 10:41 | Nucleo deterministico (regole R1-R3, store versionato) + 12 casi attesi | DA FARE: Sciandra rilegge i 12 casi attesi in checks/cases.json. Li ha scritti l'agente: 11/11 al primo colpo resta sospetto finché un umano non li controlla | — |
+| 10:44 | Interpretazione della domanda con il modello | Test end to end con il modello reale e lettura dell'output grezzo | Con max_tokens=150 il modello spendeva tutto in ragionamento e restituiva testo vuoto (finish_reason=length), e il sistema ripiegava in silenzio sull'offline. Trovato leggendo l'output grezzo; fix: minimo 1200 token ed errore esplicito su risposta vuota |
+| 10:44 | Assistente su domanda di seguito ("E per la variante B?") | Stesso test end to end | La domanda di seguito perdeva il compito e dava "compito sconosciuto" invece di "nessuna scheda per la variante B". Fix: il compito della domanda precedente passa come contesto |
+| 10:45 | UI Streamlit | Percorso demo in 6 passi guidato automaticamente dalla UI (AppTest), offline | Nessuna eccezione; esiti attesi a ogni passo |
 
 ## Checkpoints
 - 1st: MISSING
