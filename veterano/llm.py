@@ -16,6 +16,17 @@ from pydantic import BaseModel, ValidationError
 
 load_dotenv()
 
+# Su Streamlit Community Cloud la chiave arriva dai Secrets: la copiamo nell'ambiente se manca.
+if not os.getenv("AI_GATEWAY_API_KEY"):
+    try:
+        import streamlit as _st
+
+        for _k in ("AI_GATEWAY_API_KEY", "VETERANO_MODEL", "VETERANO_OFFLINE"):
+            if _k in _st.secrets and not os.getenv(_k):
+                os.environ[_k] = str(_st.secrets[_k])
+    except Exception:
+        pass
+
 BASE_URL = "https://ai-gateway.vercel.sh/v1"
 TIMEOUT_S = 20
 
