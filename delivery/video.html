@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Il Veterano · video 12:30</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0B0A0A; --white: #FFFFFF; --dim: rgba(255,255,255,.6); --faint: rgba(255,255,255,.35);
+    --line: rgba(255,255,255,.18); --accent: #44A7D6; --red: #D0425A;
+    --sans: "Inter Tight", system-ui, sans-serif; --mono: ui-monospace, "DejaVu Sans Mono", monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1280px; height: 720px; overflow: hidden; background: var(--ink); color: var(--white); font-family: var(--sans); }
+  .scene { position: absolute; inset: 0; padding: 72px 88px; opacity: 0; transition: opacity .45s ease; }
+  .scene.on { opacity: 1; }
+  /* fondo: puntini e tracce, come le schede tecniche */
+  .grid { position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,.07) 1px, transparent 1px); background-size: 22px 22px; }
+  .h { font-weight: 400; font-size: 76px; line-height: 1.02; letter-spacing: -0.02em; text-transform: uppercase; }
+  .h.blue { color: var(--accent); }
+  .h.sm { font-size: 54px; }
+  .lead { font-size: 30px; line-height: 1.3; color: var(--dim); max-width: 980px; }
+  .mono { font-family: var(--mono); letter-spacing: -0.03em; }
+  .label { font-family: var(--mono); font-size: 18px; color: var(--accent); text-transform: uppercase; letter-spacing: .02em; }
+  .w { display: inline-block; opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; }
+  .on .w { opacity: 1; transform: none; transition-delay: var(--t); }
+  .term { position: absolute; top: 64px; right: 88px; border: 3px double rgba(255,255,255,.55); padding: 18px 24px; font-family: var(--mono); font-size: 22px; line-height: 1.45; color: rgba(255,255,255,.75); background: rgba(11,10,10,.85); }
+  .term .hl { background: rgba(68,167,214,.35); color: #fff; }
+  .term .b { color: var(--accent); }
+  .bottom { position: absolute; left: 88px; right: 88px; bottom: 80px; }
+  .strike { position: relative; display: inline-block; }
+  .strike::after { content: ""; position: absolute; left: 0; top: 54%; height: 3px; width: 0; background: var(--red); transition: width .5s ease; }
+  .on .strike::after { width: 100%; transition-delay: var(--s); }
+  .list { font-size: 58px; line-height: 1.25; font-weight: 300; }
+  /* demo */
+  #s4 { padding: 0; }
+  .steps { position: absolute; left: 88px; top: 34px; height: 44px; display: flex; align-items: center; gap: 18px; }
+  .steps .n { font-family: var(--mono); font-size: 22px; color: var(--accent); }
+  .steps .t { font-size: 28px; text-transform: uppercase; letter-spacing: -0.01em; transition: opacity .3s; }
+  .frame { position: absolute; left: 50%; top: 96px; transform: translateX(-50%); width: 1040px; height: 585px; border: 3px double rgba(255,255,255,.5); padding: 6px; background: #000; }
+  .frame video { width: 100%; height: 100%; display: block; }
+  .dots { position: absolute; top: 112px; bottom: 30px; width: 60px; background-image: radial-gradient(var(--accent) 1.5px, transparent 1.5px); background-size: 12px 26px; opacity: .45; }
+  .dots.l { left: 40px; } .dots.r { right: 40px; }
+  .tag { position: absolute; right: 88px; top: 40px; font-family: var(--mono); font-size: 16px; color: var(--faint); text-transform: uppercase; }
+</style>
+</head>
+<body>
+<div class="grid"></div>
+
+<!-- S1 · il problema -->
+<section class="scene" id="s1">
+  <div class="term">
+    <div>C:\REPARTO\PERSONE&gt; dir</div>
+    <div class="hl">TECNICO_SENIOR.TXT&nbsp;&nbsp;31 ANNI</div>
+    <div>IN PENSIONE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12-2026</div>
+    <div>SAPERE SCRITTO &nbsp;&nbsp;&nbsp;<span class="b">&nbsp;0 %</span></div>
+  </div>
+  <div class="bottom">
+    <div class="h blue" data-words>Quando un esperto se ne va,</div>
+    <div class="h" data-words data-delay="700">il suo sapere esce con lui.</div>
+  </div>
+</section>
+
+<!-- S2 · come si fa oggi (sostituibile con una citazione reale: vedi CONFIG) -->
+<section class="scene" id="s2">
+  <div class="label" style="margin-top:40px">Oggi</div>
+  <div class="list" style="margin-top:28px" id="s2list"></div>
+  <div class="lead" style="margin-top:44px" data-words data-delay="1500" id="s2tail"></div>
+</section>
+
+<!-- S3 · il nome -->
+<section class="scene" id="s3">
+  <div class="bottom">
+    <div class="h blue" data-words>Il Veterano</div>
+    <div class="h sm" style="margin-top:18px" data-words data-delay="450">La memoria di reparto che il responsabile può vedere, correggere e pubblicare.</div>
+  </div>
+</section>
+
+<!-- S4 · demo vera -->
+<section class="scene" id="s4">
+  <div class="steps"><span class="n" id="stepN">01</span><span class="t" id="stepT"></span></div>
+  <div class="tag">demo reale · scenario sintetico</div>
+  <div class="dots l"></div><div class="dots r"></div>
+  <div class="frame"><video id="demo" src="out/demo_cut.webm" muted playsinline preload="auto"></video></div>
+</section>
+
+<!-- S5 · cosa verifichiamo -->
+<section class="scene" id="s5">
+  <div class="label" style="margin-top:40px">Cosa verifichiamo oggi</div>
+  <div class="h sm" style="margin-top:28px; text-transform:none; font-size:62px" data-words data-delay="200">Un capo reparto dedica davvero tempo a revisionare le schede?</div>
+  <div class="lead mono" style="margin-top:48px; font-size:22px; color:var(--faint)" data-words data-delay="1400">Criterio di stop: meno di 2 intervistati su 4 con un caso reale e costoso.</div>
+</section>
+
+<!-- S6 · chiusura -->
+<section class="scene" id="s6">
+  <div class="bottom">
+    <div class="h blue" data-words>Il Veterano</div>
+    <div class="h sm" style="margin-top:14px" data-words data-delay="350">Memoria di reparto visibile e revisionabile</div>
+    <div class="label" style="margin-top:34px; color:var(--faint)">Track 3b · Memory for people &nbsp;·&nbsp; demo reale su scenario sintetico</div>
+  </div>
+</section>
+
+<script>
+// CONFIG: quando arriva una citazione VERA dalle interviste, metterla in quote (testo, ruolo e settore).
+// Se quote è null, la scena 2 mostra le soluzioni di ripiego di oggi.
+const CONFIG = {
+  quote: null, // es. { text: "…", who: "Responsabile qualità, componentistica auto" }
+  workarounds: ["Affiancamento.", "Raccoglitori.", "«Chiedi a chi c'era»."],
+  tail: "Non scala. E sparisce con la pensione.",
+};
+const STEPS = [ // tempi in secondi dentro demo_cut.webm
+  [0.0,  "01", "L'assistente non inventa: c'è solo una bozza"],
+  [5.0,  "02", "Chiede all'esperto ciò che manca"],
+  [9.8,  "03", "Il responsabile verifica la fonte e pubblica"],
+  [13.4, "04", "Risponde e dice quale versione ha usato"],
+  [19.1, "05", "Variante B: nessuna scheda, nessuna risposta"],
+];
+const TIMELINE = [ // [scena, inizio s, durata s]
+  ["s1", 0, 6], ["s2", 6, 5], ["s3", 11, 3.6], ["s4", 14.6, 23.8], ["s5", 38.4, 5.6], ["s6", 44, 4],
+];
+const TOTAL = 48;
+
+function splitWords(el) {
+  const base = parseInt(el.dataset.delay || "0", 10);
+  const words = el.textContent.trim().split(/\s+/);
+  el.innerHTML = words.map((w, i) => `<span class="w" style="--t:${base + i * 55}ms">${w}</span>`).join(" ");
+}
+function buildS2() {
+  const list = document.getElementById("s2list"), tail = document.getElementById("s2tail");
+  if (CONFIG.quote) {
+    list.innerHTML = `<span class="w" style="--t:0ms;font-weight:400">“${CONFIG.quote.text}”</span>`;
+    list.style.fontSize = "44px";
+    tail.textContent = "— " + CONFIG.quote.who;
+  } else {
+    list.innerHTML = CONFIG.workarounds.map((w, i) =>
+      `<div><span class="w strike" style="--t:${i * 260}ms;--s:${900 + i * 260}ms">${w}</span></div>`).join("");
+    tail.textContent = CONFIG.tail;
+  }
+}
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+async function run() {
+  buildS2();
+  document.querySelectorAll("[data-words]").forEach(splitWords);
+  const demo = document.getElementById("demo");
+  await document.fonts.ready;
+  if (demo.readyState < 4) await new Promise(r => demo.addEventListener("canplaythrough", r, { once: true }));
+  window.__started = performance.now();
+  const t0 = performance.now();
+  for (const [id, start, dur] of TIMELINE) {
+    const wait = start * 1000 - (performance.now() - t0);
+    if (wait > 0) await sleep(wait);
+    document.querySelectorAll(".scene.on").forEach(s => s.classList.remove("on"));
+    document.getElementById(id).classList.add("on");
+    if (id === "s4") {
+      demo.currentTime = 0; demo.play();
+      for (const [at, n, t] of STEPS) {
+        const w = at * 1000 - demo.currentTime * 1000;
+        if (w > 0) await sleep(w);
+        document.getElementById("stepN").textContent = n;
+        document.getElementById("stepT").textContent = t;
+      }
+    }
+  }
+  await sleep(TOTAL * 1000 - (performance.now() - t0));
+  window.__done = true;
+}
+window.addEventListener("load", run);
+</script>
+</body>
+</html>

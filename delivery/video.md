@@ -1,4 +1,6 @@
-# Video delle 12:30: copione, inquadrature, abstract (BOZZA)
+# Video delle 12:30: copione, inquadrature, abstract
+
+VERSIONE FINALE (11:14): nessun volto, nessuna voce, nessun nome (scelta di privacy del team). Video generato da `delivery/video.html` con `delivery/render_video.py`, sulla demo vera registrata da `delivery/record_demo.py`. La versione con le clip di Brescia, qui sotto, è archiviata.
 
 Vincoli: un solo MP4 (H.264 + AAC), al massimo 50 s e 25 MB. Il video non è anonimo: il team si nomina.
 Testo detto: circa 105 parole, da tenere sotto i 45 s. Le parti tra ⟦ ⟧ si riempiono con le interviste di Brescia (11:30).
@@ -34,4 +36,3 @@ Ogni risposta mostra la scheda e la versione usata.
 Track: Memory for people (3b). Scenario della demo sintetico e dichiarato tale.
 Ipotesi più rischiosa: un responsabile dedica davvero tempo a revisionare le schede. Criterio di stop: meno di 2 persone su 4 intervistate raccontano un episodio recente e costoso di sapere perso. Oggi: ⟦n su 4⟧.
 Strumenti: Claude Opus 5.5 in Claude Code per lo sviluppo; nel prodotto Claude Haiku 5.5 via Vercel AI Gateway; Python, Streamlit, SQLite.
-Team: Lorenzo Sciandra, Lorenzo Brescia.
