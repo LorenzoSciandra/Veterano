@@ -110,16 +110,16 @@ const CONFIG = {
   tail: "Non scala. E sparisce con la pensione.",
 };
 const STEPS = [ // tempi in secondi dentro demo_cut.webm
-  [0.0,  "01", "L'assistente non inventa: c'è solo una bozza"],
-  [5.0,  "02", "Chiede all'esperto ciò che manca"],
-  [9.8,  "03", "Il responsabile verifica la fonte e pubblica"],
-  [13.4, "04", "Risponde e dice quale versione ha usato"],
-  [19.1, "05", "Variante B: nessuna scheda, nessuna risposta"],
+  [0.0,  "01", "L'istruzione non è approvata: non risponde"],
+  [5.7,  "02", "Chiede all'esperto ciò che manca"],
+  [11.8, "03", "Il capo reparto approva"],
+  [15.4, "04", "Ora risponde e mostra la fonte"],
+  [21.5, "05", "Variante B: nessuna istruzione, nessuna risposta"],
 ];
 const TIMELINE = [ // [scena, inizio s, durata s]
-  ["s1", 0, 6], ["s2", 6, 5], ["s3", 11, 3.6], ["s4", 14.6, 23.8], ["s5", 38.4, 5.6], ["s6", 44, 4],
+  ["s1", 0, 5], ["s2", 5, 4.5], ["s3", 9.5, 3.3], ["s4", 12.8, 26.6], ["s5", 39.4, 5.1], ["s6", 44.5, 3.2],
 ];
-const TOTAL = 48;
+const TOTAL = 47.7;
 
 function splitWords(el) {
   const base = parseInt(el.dataset.delay || "0", 10);
