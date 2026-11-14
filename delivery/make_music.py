@@ -61,25 +61,25 @@ NOTE = {"C3": 130.81, "E3": 164.81, "G3": 196.0, "A2": 110.0, "F2": 87.31, "G2":
 a, b = 0.0, 9.6
 i0, i1, t = t_of(a, b)
 grow = np.linspace(0.35, 1.0, len(t))
-drone = tone(55, t, (1, .6, .4, .3, .2)) + 0.6 * tone(58.27, t, (1, .5, .3))  # La1 + Sib1: seconda minore
-add(a, b, drone * env(len(t), 1.5, 0.15) * grow, gain=0.32)
+drone = tone(55, t, (1, .6, .4, .3, .2)) + 0.25 * tone(58.27, t, (1, .5, .3))  # La1 + Sib1 appena accennato
+add(a, b, drone * env(len(t), 1.5, 0.15) * grow, gain=0.13)
 # battito che accelera
 beat_t, period = 0.6, 0.95
 while beat_t < 9.2:
     _, _, bt = t_of(0, 0.35)
     thump = np.sin(2 * np.pi * (48 + 30 * np.exp(-bt * 25)) * bt) * np.exp(-bt * 11)
-    add(beat_t, beat_t + 0.35, thump, gain=0.55 * (0.6 + 0.4 * beat_t / 9.6))
+    add(beat_t, beat_t + 0.35, thump, gain=0.16)
     beat_t += period
-    period = max(0.55, period * 0.95)
+    period = period  # battito regolare, senza accelerare
 # crescendo di rumore filtrato verso il "Come"
 i0, i1, t = t_of(5.8, 9.5)
 noise = rng.standard_normal(len(t))
 riser = lowpass(noise, 0.02) * np.linspace(0, 1, len(t)) ** 2.2
-add(5.8, 9.5, riser, gain=0.9)
+add(5.8, 9.5, riser, gain=0.22)
 # nota acuta tesa che sale
 i0, i1, t = t_of(6.5, 9.5)
 f = 880 * (1 + 0.06 * (t / t[-1]))
-add(6.5, 9.5, np.sin(2 * np.pi * np.cumsum(f) / SR) * np.linspace(0, 1, len(t)) ** 2, pan=0.3, gain=0.05)
+add(6.5, 9.5, np.sin(2 * np.pi * np.cumsum(f) / SR) * np.linspace(0, 1, len(t)) ** 2, pan=0.3, gain=0.0)  # nota tesa tolta
 
 # --- 2. come: scioglimento in maggiore -----------------------------------------
 def pad(a, b, notes, gain=0.12, att=0.8, rel=1.0):
